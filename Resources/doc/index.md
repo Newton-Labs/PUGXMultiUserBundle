@@ -1,17 +1,17 @@
 PUGXMultiUserBundle Documentation
-==================================
+=================================
 
-PUGXMultiUserBundle came by the need to use different types of users using only one fos_user service.
-In practice it is an hack that forces FOSUser bundle through custom UserManager, controllers, and forms handlers.
+PUGXMultiUserBundle came by the need to use different types of users using only one `fos_user` service.
+In practice it is an addon, that forces FOSUserBundle through custom UserManager, controllers, and forms handlers.
 
 It's just a lazy way to use for free most of the functionality of FOSUserBundle.
 
-This bundle has been realized as a part of a real application that uses doctrine orm,
+This bundle has been realized as a part of a real application that uses Doctrine ORM,
 so for now it only supports the ORM db driver.
 
 ## Prerequisites
 
-This version of the bundle requires Symfony dev-master and FOSUserBundle dev-master
+This version of the bundle requires Symfony (any version) and FOSUserBundle dev-master
 
 [FOSUserBundle] (https://github.com/FriendsOfSymfony/FOSUserBundle)
 
@@ -30,22 +30,8 @@ This version of the bundle requires Symfony dev-master and FOSUserBundle dev-mas
 
 **Using composer**
 
-Add the following lines in your composer.json:
-
-```
-{
-    "require": {
-        "friendsofsymfony/user-bundle": "2.0.*@dev",
-        "pugx/multi-user-bundle": "3.0.*@dev"
-    }
-}
-
-```
-
-Now, run the composer to download the bundle:
-
 ``` bash
-$ php composer.phar update pugx/multi-user-bundle
+$ php composer.phar require pugx/multi-user-bundle
 ```
 
 
@@ -155,13 +141,13 @@ class UserTwo extends User
 ```
 
 You must also create forms for your entities:
-see [Overriding Default FOSUserBundle Forms] (https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/Resources/doc/overriding_forms.md)
+see [Overriding Default FOSUserBundle Forms] (https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/Resources/doc/overriding_forms.rst)
 
 ### 4. Configure the FOSUserBundle (PUGXMultiUserBundle params)
 
-Keep in mind that PUGXMultiUserBundle overwrites user_class via UserDiscriminator
+Keep in mind that PUGXMultiUserBundle overwrites `user_class` via UserDiscriminator
 but it does it only in controllers and forms handlers; in the other cases (command, sonata integration, etc)
-it still uses the user_class configured in the config.
+it still uses the `user_class` configured in the config.
 
 ``` yaml
 # Acme/UserBundle/Resources/config/config.yml
@@ -174,13 +160,13 @@ fos_user:
 ```
 
 **Note:**
-> Acme\UserBundle\Entity\User must be an abstract class, because you don't have to use it.
+> `Acme\UserBundle\Entity\User` must be an abstract class, because you don't have to use it.
 In fact is the discriminator that has responsibility to get the user class depending on context.
 
 ### 5. Configure the PUGXMultiUserBundle
 
 ``` yaml
-# Acme/UserBundle/Resources/config/config.yml
+# app/config/config.yml
 
 pugx_multi_user:
   users:
@@ -217,14 +203,14 @@ pugx_multi_user:
 #### Route configuration
 
 ``` yaml
-# Acme/UserBundle/Resources/config/routing.yml
+# app/config/routing.yml
 
 user_one_registration:
-    pattern:  /register/user-one
+    path:  /register/user-one
     defaults: { _controller: AcmeUserBundle:RegistrationUserOne:register }
 
 user_two_registration:
-    pattern:  /register/user-two
+    path:  /register/user-two
     defaults: { _controller: AcmeUserBundle:RegistrationUserTwo:register }
 ```
 
